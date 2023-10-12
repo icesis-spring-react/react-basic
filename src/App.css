@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+label {
+  padding: 10px;
+}
+
+.selected {
+  background-color: aqua;
+}
+
 nav {
   background-color: white;
 }

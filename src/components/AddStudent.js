@@ -1,9 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React , {useState} from "react";
 
 const baseURL = "http://localhost:8080/student";
 
-const AddStudent = () => {
+const AddStudent = (props) => {
 
     const [inputs, setInputs] = useState({});
     
@@ -15,28 +15,40 @@ const AddStudent = () => {
     
     const guardar = (event) => {
         event.preventDefault();
-        alert(inputs);
+        console.log(inputs);
+
+        let student = {
+          firstname: inputs.firstname,
+          lastname: inputs.lastname
+        }
+
+        axios.post(baseURL, student).then((response) => {
+            console.log("Estudiante adicionado");
+
+            props.fnListar();
+        });
     }
 
     return <>
+      <h2>Adicionar Estudiante</h2>
       <form onSubmit={guardar}>
       <label>Nombre:
       <input 
         type="text" 
         name="firstname" 
         value={inputs.firstname || ""} 
-        onChange={cambiar}
-      />
+        onChange={cambiar} required
+      /><br />
       </label>
       <label>Apellido: 
         <input 
           type="text" 
           name="lastname" 
           value={inputs.lastname || ""} 
-          onChange={cambiar}
+          onChange={cambiar} required
         />
-        </label>
-        <input type="submit" />
+        </label><br />
+        <input type="submit" value="Guardar Cambios" />
     </form>
             </>;
   };

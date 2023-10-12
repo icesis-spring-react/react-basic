@@ -1,28 +1,60 @@
 import axios from "axios";
-import React from "react";
+import React, { Component } from "react";
 
 const baseURL = "http://localhost:8080/students";
 
-const StudentsList = () => {
+ class StudentsList extends Component {
+    constructor(props){
+        super();
+        this.state = {
+            students: [],
+        }
+        this.studentSelected = null;
+        props.setStudent(this.studentSelected)
+        this.props = props;
 
+    }
     // Lista con los estudiantes
-    const [students, setStudents] = React.useState([]);
+    //const [students, setStudents] = React.useState([]);
+    getStudentSelected() {
+        return this.studentSelected 
+    }
 
-    React.useEffect(() => {
+    //React.useEffect(() => {
+    listar() {
         axios.get(baseURL).then((response) => {
-            setStudents(response.data);
+            this.setState( { students: response.data } );
         });
-      }, []);
+      }
+
+      componentDidMount(){
+        this.listar();
+      }
+
+      selectStudent(student){
+        this.props.setDisplay("Add")
+        this.studentSelected = student; 
+        console.log("selected ", student); /* e.target.className = 'selected';*/ 
+
+        this.props.setDisplay("Edit")
+      }
     
-    return <><h1>Students List</h1>
-                <div>
-                    {students.map( (student, key) =>
-                        <div key={key}>
-                            {student.firstname}  {student.lastname}
+      render(){
+            return <><h1>Students List</h1>
+                        <div>
+                            {this.state.students.map( (student, key) =>
+                                <div 
+                                   key={key}  id={'div_' + key}
+                                   onClick={(e)=> {  this.selectStudent(student) }} 
+
+                                   className={this.studentSelected != null && student === this.studentSelected?'selected':''}>
+
+                                    {student.firstname}  {student.lastname}
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-            </>;
-  };
+                    </>;
+      }
+  }
   
   export default StudentsList;
