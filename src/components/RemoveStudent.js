@@ -8,7 +8,7 @@ const RemoveStudent = (props) => {
     const guardar = (event) => {
         event.preventDefault();
 
-        axios.delete(baseURL+props.studentSelected.firstname).then((response) => {
+        axios.delete(baseURL+props.studentSelected.id).then((response) => {
             console.log("Estudiante eliminado");
             props.listar();
         });

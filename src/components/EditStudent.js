@@ -31,7 +31,7 @@ const EditStudent = (props) => {
           lastname: inputs.lastname
         }
 
-        axios.put(baseURL+props.studentSelected.firstname, student).then((response) => {
+        axios.put(baseURL+props.studentSelected.id, student).then((response) => {
             console.log("Estudiante modificado");
             props.setStudent(student)
             props.listar();
